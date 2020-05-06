@@ -17,12 +17,10 @@ module.exports = function validatorRegisterInput(data) {
 
   if (Validator.isEmpty(data.email)) {
     error.email = "email require";
-  } else if (!Validator.isEmpty(data.email)) {
+  }else if (!Validator.isEmail(data.email)) {
     error.email = "email is invalid or email is registered";
   }
-  // else if(!Validator.isEmail(data.email,{ allow_display_name: true, require_display_name: true, allow_utf8_local_part: true, require_tld: true, allow_ip_domain: true, domain_specific_validation: true })){
-  //     error.eamil = "plase input your correct email"
-  // }
+  
 
   if (Validator.isEmpty(data.password)) {
     error.password = "password is required";
@@ -41,7 +39,7 @@ module.exports = function validatorRegisterInput(data) {
   }
 
   return {
-      error,
+    error,
     isValid: isEmpty(error),
   };
 };

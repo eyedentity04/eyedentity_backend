@@ -8,17 +8,26 @@ const validatorRegisterInput = require("../validator/Register");
 // const validateLoginInput =  require('../validator/Login')
 
 module.exports = {
+
+  
+
   register: (req, res, next) => {
     const { error, isValid } = validatorRegisterInput(req.body);
 
     if (!isValid) {
-      return res.status(400).json(error);
+      return res
+        .status(400)
+        .json(error);
     }
-    User.findOne({ email: req.body.email }).then((result) => {
-      console.log(result);
-
-      if (result) {
-        return res.status(400).json({ email: "Email already exists" });
+    User  
+      .findOne({ email: req.body.email })
+        .then(user => {
+          
+          if (user) {
+            return res
+              .status(400)
+                .json({ email: "email is invalid or email is registered" });
+                
       } else {
         const newUser = new User({
           name: req.body.name,

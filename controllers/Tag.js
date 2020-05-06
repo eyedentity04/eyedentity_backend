@@ -1,59 +1,77 @@
 const Tag = require("../models/Tag");
 
 module.exports = {
-  createName: (req,res) => {
-    Tag.create({
-        name :req.body.name
-    })
+  
+  getTagAll : (req,res) => {
+    Tag.find({})
+    .populate("tag")
     .then((result) => res.json(result))
     .catch(err => {
-        throw err
+      throw err
     })
   },
 
-  getTagByName: (req, res) => {
+  getTagByName : (req,res) => {
     Tag.findOne({name : req.params.name})
-      .then((result) => res.json(result))
-      .catch((err) => {
-        throw err;
-      });
-  },
-
-  getTagAll: (req, res) => {
-    Tag.find({})
-      .then((result) => res.json(result))
-      .catch((err) => {
-        throw err;
-      });
-  },
-
-  editByName: (req, res) => {
-    Tag.findOneAndUpdate(req.params.name, {
-      name: req.body.name,
+    .populate("tag")
+    .then((result) => res.json(result))
+    .catch(err => {
+      throw err
     })
-      .then((result) => res.json(result))
-      .catch((err) => {
-        throw err;
-      });
-  },
-  deleteByname: (req, res) => {
-    Tag.findOneAndRemove(req.params.name)
-      .then((result) => res.json(result))
-      .catch((err) => {
-        throw err;
-      });
-  },
+  }
+  // createName: (req,res) => {
+  //   Tag.create({
+  //       name :req.body.name
+  //   })
+  //   .then((result) => res.json(result))
+  //   .catch(err => {
+  //       throw err
+  //   })
+  // },
 
-  createPlace: (req, res) => {
-    Tag.create({
-      name: req.body.name,
-      long: req.body.long,
-      lat: req.body.lat,
-    })
+  // getTagByName: (req, res) => {
+  //   Tag.findOne({name : req.params.name})
+  //     .then((result) => res.json(result))
+  //     .catch((err) => {
+  //       throw err;
+  //     });
+  // },
 
-      .then((result) => res.json(result))
-      .catch((err) => {
-        throw err;
-      });
-  },
+  // getTagAll: (req, res) => {
+  //   Tag.find({})
+  //     .then((result) => res.json(result))
+  //     .catch((err) => {
+  //       throw err;
+  //     });
+  // },
+
+  // editByName: (req, res) => {
+  //   Tag.findOneAndUpdate(req.params.name, {
+  //     name: req.body.name,
+  //   })
+  //     .then((result) => res.json(result))
+  //     .catch((err) => {
+  //       throw err;
+  //     });
+  // },
+  // deleteByname: (req, res) => {
+  //   Tag.findOneAndRemove(req.params.name)
+  //     .then((result) => res.json(result))
+  //     .catch((err) => {
+  //       throw err;
+  //     });
+  // },
+
+  // createPlace: (req, res) => {
+  //   Tag.create({
+  //     name: req.body.name,
+  //     long: req.body.long,
+  //     lat: req.body.lat,
+  //   })
+
+  //     .then((result) => res.json(result))
+  //     .catch((err) => {
+  //       throw err;
+  //     });
+  // },
 };

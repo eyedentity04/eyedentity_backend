@@ -12,6 +12,7 @@ const privateKey = "eyedentity"
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/Users');
 var tagRouter = require('./routes/Tag')
+var postRouter = require ('./routes/Post')
 
 var app = express();
 mongodConnect = process.env.DB_LOCAL_EYEDENTITY;
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tag',tagRouter)
+app.use('/post',validateUser,postRouter)
 
 
 function validateUser(req,res,next){

@@ -1,6 +1,9 @@
 const Post = require ('../models/Post')
 
+
+
 module.exports={
+
     create:(req,res) => {
         Post.create({
             description:req.body.description,
@@ -50,6 +53,15 @@ module.exports={
         })
         .then((result) => res.json(result))
         .then(err =>{
+            throw err
+        })
+    },
+
+    test : (req,res) => {
+        Post.find({})
+        .populate('')
+        .then((result) => res.json(result))
+        .catch(err => {
             throw err
         })
     }

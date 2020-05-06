@@ -33,9 +33,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users',usersRouter);
 app.use('/tag',tagRouter)
-app.use('/post',validateUser,postRouter)
+app.use('/post',postRouter)
 
 
 function validateUser(req,res,next){

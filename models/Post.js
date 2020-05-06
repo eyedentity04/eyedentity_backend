@@ -1,8 +1,14 @@
 const mongoose = require ('mongoose')
 const Schema = mongoose.Schema
+const User = require('./User')
 
 const postSchema = new Schema({
     
+    name : {
+        type : Schema.Types.ObjectId,
+        ref : User
+    },
+
     description:{
         type:String,
         required:true

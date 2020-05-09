@@ -1,7 +1,8 @@
 const mongoose = require ('mongoose')
 const Schema = mongoose.Schema
 const User = require('./User')
-
+const TagPlace = require('./TagPlace')
+const Comment = require ('./Comment')
 const postSchema = new Schema({
     
     name : {
@@ -19,21 +20,51 @@ const postSchema = new Schema({
         required:false
     },
 
-    like:{
-        type:String,
-        required:true
-    },
+    like:[{
+        type:Schema.Types.ObjectId,
+        ref:User
+    }],
+    comment : [{
 
-    comment:{
-        type:String,
-        required:true
-    },
+        comment:{
+            type:String,
+            ref: Comment
+        },
+        
+        user:{
+            type: Schema.Types.ObjectId,
+            ref:User
+        }
+    }],
 
-    
+    tag : [{
+        type:Schema.Types.ObjectId,
+        ref:User
+    }],
+
+
+    tagPlace :[{
+        namePlace :{
+            type : String, 
+            ref: TagPlace
+        },
+        
+        long :{
+            type : String,
+            ref: TagPlace
+        },
+
+        lat :{
+            type : String,
+            ref : TagPlace
+        }
+        
+        
+    }],
     
     date:{
         type:Date,
-        required: false
+        default : Date.now
     },
 
 

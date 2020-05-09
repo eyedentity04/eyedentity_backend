@@ -6,10 +6,21 @@ module.exports={
 
     create:(req,res) => {
         Post.create({
+            name: req.body.name,
             description:req.body.description,
             image:req.file && req.file.path,
+            tag: req.body.tag,
+            tagPlace : {
+                namePlace : req.body.namePlace,
+                long : req.body.long,
+                lat : req.body.lat
+            },
             like:req.body.like,
-            comment:req.body.comment,
+
+            comment:{
+                comment: req.body.comment,
+                user: req.body.user
+            }
             // date:req.body.date
             
         })
@@ -20,6 +31,11 @@ module.exports={
     },
     getAllData : (req,res) => {
         Post.find ({})
+        .populate ("name","name")
+        .populate ("tag", "name")
+        .populate ("like","name")
+        .populate ("comment.user","name")
+        .populate ({path : "post",populate:{path : "tagPlace"}})
         .then((response) => res.json(response))
         .catch (err => {
             throw err

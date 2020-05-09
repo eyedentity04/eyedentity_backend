@@ -93,35 +93,35 @@ module.exports = {
   //     })
   // }),
 
-  authenticated: function (req, res, next) {
+  authenticated: function (req,res,next){
     User.findOne({
-      email: req.body.email,
+      email : req.body.email
     })
-      .then((response, err) => {
-        if (err) next(err);
-        else {
-          if (
-            response != null &&
-            bcrypt.compareSync(req.body.password, response.password)
-          ) {
+    .then((response,err)=>{
+      if(err) next(err);
+      else {
+        if(response != null){
+          bcrypt.compare(req.body.password,response.password,function(
+            err,
+            result
+          ){
             jwt.sign(
-              {
-                id: response._id,
-              },
+              {id : response._id},
               privateKey,
-              { expiresIn: 60 * 60 },
-              (err, token) => {
-                res.json(token);
+              {expiresIn : 60 * 60},
+              (err,token) =>{
+                res.json(token)
               }
-            );
-          } else {
-            res.json({ status: err });
-          }
+            )
+          })
+        }else{
+          res.json({status : err})
         }
-      })
-      .catch((err) => {
-        throw err;
-      });
+      }
+    })
+    .catch((err) => {
+      throw err
+    })
   },
 
   getUserData: (req, res) => {

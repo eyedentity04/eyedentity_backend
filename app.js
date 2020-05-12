@@ -36,14 +36,14 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/public', express.static('public'))
-// app.use(express.static(path.join(__dirname, 'public')));
+// app.use('/public', express.static('public'))
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);
 app.use('/users',usersRouter);
 // app.use('/tag',tagRouter)
-app.use('/post',validateUser,postRouter)
+app.use('/post',postRouter)
 
 
 function validateUser(req,res,next){

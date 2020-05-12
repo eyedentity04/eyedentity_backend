@@ -23,6 +23,13 @@ mongoose.connect(mongodConnect, {
 
 
 app.use(cors());
+app.use(
+  cors({
+    origin: ["*"],
+    methods: ["GET", "HEAD", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"],
+    credentials: false
+  })
+)
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

@@ -15,7 +15,7 @@ var usersRouter = require('./routes/Users');
 var postRouter = require ('./routes/Post')
 
 var app = express();
-mongodConnect = process.env.DB_EYEDENTITY;
+mongodConnect = process.env.DB_LOCAL_EYEDENTITY;
 mongoose.connect(mongodConnect, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -43,11 +43,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users',usersRouter);
 // app.use('/tag',tagRouter)
-app.use('/post',postRouter)
+app.use('/post',validateUser,postRouter)
 
 
 function validateUser(req,res,next){
-  jwt.verify(req.headers["x-access-token"],privateKey,(err,decoded) => {
+  jwt.verify(req.headers["token"],process.env.PRIVATE_KEY,(err,decoded) => {
     if(err){
       res.json(err)
     }else{

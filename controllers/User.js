@@ -80,7 +80,7 @@ module.exports = {
                       }, (err,token) => {
                           res.json({
                               success : true,
-                              token : "x-access-token" + token,
+                              token : token,
                               id : user.id
                           })
                       })

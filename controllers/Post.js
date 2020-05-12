@@ -32,7 +32,7 @@ module.exports={
     getAllData : (req,res) => {
         Post.find ({})
         .populate ("name","name")
-        .populate ("tag", "name")
+        .populate ("tag","name")
         .populate ("like","name")
         .populate ("comment.user","name")
         .populate ({path : "post",populate:{path : "tagPlace"}})

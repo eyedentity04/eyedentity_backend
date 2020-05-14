@@ -16,7 +16,8 @@ const postSchema = new Schema({
     },
 
     image:{
-        type:String,
+        
+        type:String
         
     },
 

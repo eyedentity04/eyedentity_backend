@@ -36,7 +36,7 @@ module.exports={
         .populate ("like","name")
         .populate ("comment.user","name")
         .populate ({path : "post",populate:{path : "tagPlace"}})
-        .then((response) => res.json(response))
+        .then((response) => res.json(response,))
         .catch (err => {
             throw err
         }) 

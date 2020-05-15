@@ -42,6 +42,20 @@ module.exports={
         }) 
     },
 
+    getAllDataTest : (req,res) => {
+        Post.find({})
+        .sort({date : 'desc'})
+        .populate ("name","name")
+        .populate ("tag","name")
+        .populate ("like","name")
+        .populate ("comment.user","name")
+        .populate ({path : "post",populate:{path : "tagPlace"}})
+        .then((response) => res.json(response))
+        .catch(err => {
+            throw err
+        })
+    },
+
     getDatabyID: (req,res) => {
         Post.findById (req.params.postID)
         .then ((result) => res.json(result))

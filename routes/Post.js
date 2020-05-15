@@ -21,6 +21,7 @@ router.get("/show",postController.getAllData)
 router.get("/show/:postID/",postController.getDatabyID)
 router.delete("/delete/:postID",postController.deletebyID)
 router.put("/edit/:postID",postController.editByID)
+router.get('/test',postController.getAllDataTest)
 
 
 router.get("/test",postController.test)

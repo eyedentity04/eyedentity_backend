@@ -147,10 +147,32 @@ module.exports = {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
+      image : req.file && req.file.path
     })
       .then((result) => res.json(result))
       .catch((err) => {
         throw err;
       });
   },
+
+  findUserQuery : (req,res) => {
+    const name = new RegExp(req.query["name"],"i")
+    User.find({name})
+    .select('-password')
+    .then((result) => res.json(result))
+    .catch(err =>{
+      throw err
+    })
+  },
+  findUserBody : (req,res) => {
+    const name = new RegExp(req.body["name"],"i")
+    User.find({name})
+    .select('-password')
+    .then((result) => res.json(result))
+    .catch(err =>{
+      throw err
+    })
+  },
+  
+
 };

@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const bcrypt= require('bcryptjs');
 const saltRounds = 10 ;
 
+
 const userSchema = new Schema({
     name : {
         type : String,
@@ -16,10 +17,9 @@ const userSchema = new Schema({
         type : String,
         required : true
     },
-    // confirmPassword : {
-    //     type : String,
-    //     required : true
-    // }
+    image : {
+        type : String,
+    }
 
 });
 

@@ -15,12 +15,12 @@ module.exports={
                 long : req.body.long,
                 lat : req.body.lat
             },
-            like:req.body.like,
+            // like:req.body.like,
 
-            comment:{
-                comment: req.body.comment,
-                user: req.body.user
-            }
+            // comment:{
+            //     comment: req.body.comment,
+            //     user: req.body.user
+            // }
             // date:req.body.date
             
         })
@@ -29,12 +29,13 @@ module.exports={
             throw err
         }) 
     },
+
     getAllData : (req,res) => {
         Post.find ({})
         .populate ("name","name")
         .populate ("tag","name")
-        .populate ("like","name")
-        .populate ("comment.user","name")
+        // .populate ("like","name")
+        // .populate ("comment.user","name")
         .populate ({path : "post",populate:{path : "tagPlace"}})
         .then((response) => res.json(response,))
         .catch (err => {
@@ -47,8 +48,9 @@ module.exports={
         .sort({date : 'desc'})
         .populate ("name","name")
         .populate ("tag","name")
-        .populate ("like","name")
-        .populate ("comment.user","name")
+        // .populate("comment")
+        // .populate ("like","name")
+        // .populate ("comment.user","name")
         .populate ({path : "post",populate:{path : "tagPlace"}})
         .then((response) => res.json(response))
         .catch(err => {
@@ -58,6 +60,7 @@ module.exports={
 
     getDatabyID: (req,res) => {
         Post.findById (req.params.postID)
+        
         .then ((result) => res.json(result))
         .catch (err => {
             throw err
@@ -77,10 +80,18 @@ module.exports={
         Post.findByIdAndUpdate(req.params.postID,{
         description:req.body.description,
         image:req.file && req.file.path,
-        like:req.body.like,
-        comment:req.body.comment,
+        tag: req.body.tag,
+            tagPlace : {
+                namePlace : req.body.namePlace,
+                long : req.body.long,
+                lat : req.body.lat
+            },
+        // like:req.body.like,
+        // comment:req.body.comment,
         // date:req.body.date
         })
+        .populate ("name","name")
+        .populate ("tag","name")
         .then((result) => res.json(result))
         .then(err =>{
             throw err

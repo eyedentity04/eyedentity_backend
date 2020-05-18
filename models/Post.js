@@ -2,7 +2,9 @@ const mongoose = require ('mongoose')
 const Schema = mongoose.Schema
 const User = require('./User')
 const TagPlace = require('./TagPlace')
-const Comment = require ('./Comment')
+// const Like = require('./Like')
+// const Comment = require('./Comment')
+
 const postSchema = new Schema({
     
     name : {
@@ -16,27 +18,18 @@ const postSchema = new Schema({
     },
 
     image:{
-        
         type:String
         
     },
 
-    like:[{
-        type:Schema.Types.ObjectId,
-        ref:User
-    }],
-    comment : [{
-
-        comment:{
-            type:String,
-            ref: Comment
-        },
-        
-        user:{
-            type: Schema.Types.ObjectId,
-            ref:User
-        }
-    }],
+    // like:[{
+    //     type:Schema.Types.ObjectId,
+    //     ref:Like,
+    // }],
+    // comment : {
+    //     type : Schema.Types.ObjectId,
+    //     ref : Comment
+    // },
 
     tag : [{
         type:Schema.Types.ObjectId,

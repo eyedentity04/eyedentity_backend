@@ -12,7 +12,7 @@ module.exports = function validatorRegisterInput(data) {
     : "";
 
   if (Validator.isEmpty(data.name)) {
-    error.name = "please input you name";
+    error.name = "please input your name";
   }
 
   if (Validator.isEmpty(data.email)) {

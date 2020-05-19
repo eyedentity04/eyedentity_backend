@@ -146,8 +146,9 @@ module.exports = {
     User.findByIdAndUpdate(req.params.userId, {
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password,
       image : req.file && req.file.path
+    },{
+      new : true
     })
       .then((result) => res.json(result))
       .catch((err) => {
@@ -173,6 +174,7 @@ module.exports = {
       throw err
     })
   },
+  
   
 
 };

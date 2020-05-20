@@ -98,9 +98,11 @@ module.exports={
         })
     },
 
-    test : (req,res) => {
-        Post.find({})
-        .populate('')
+    showUserPost : (req,res) => {
+        const user = req.body.name
+        Post.find({user})
+        .populate ("name","name")
+        .populate ("tag","name")
         .then((result) => res.json(result))
         .catch(err => {
             throw err

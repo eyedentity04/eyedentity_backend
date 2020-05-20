@@ -22,8 +22,7 @@ router.get("/show/:postID/",postController.getDatabyID)
 router.delete("/delete/:postID",postController.deletebyID)
 router.put("/edit/:postID",upload.single("image"),postController.editByID)
 router.get('/test',postController.getAllDataTest)
+router.get('/yourPost',postController.showUserPost)
 
-
-router.get("/test",postController.test)
 
 module.exports = router

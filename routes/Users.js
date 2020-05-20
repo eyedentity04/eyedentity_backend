@@ -21,6 +21,7 @@ const upload = multer({
 router.post('/register',userControllers.register)
 router.post('/login',userControllers.login)
 router.get('/show',userControllers.getUserData)
+router.get('/show/:userId',userControllers.findUserbyId)
 router.delete('/del/:userId',userControllers.deleteUSerData)
 router.put('/edit/:userId',upload.single('image'),userControllers.editUser)
 router.get('/findBody',userControllers.findUserBody)

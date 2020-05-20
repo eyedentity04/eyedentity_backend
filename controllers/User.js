@@ -155,7 +155,13 @@ module.exports = {
         throw err;
       });
   },
-
+  findUserbyId : (req,res) =>{
+    User.findById(req.params.userId)
+    .then((response) => res.json(response))
+    .catch(err => {
+      throw err
+    })
+  },
   findUserQuery : (req,res) => {
     const name = new RegExp(req.query["name"],"i")
     User.find({name})

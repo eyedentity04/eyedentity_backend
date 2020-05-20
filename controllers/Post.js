@@ -107,5 +107,15 @@ module.exports={
         .catch(err => {
             throw err
         })
-    }
+    },
+    // showUserPostQuery : (req,res) => {
+    //     const user = new RegExp(req.query["name"],"i")
+    //     Post.find({user})
+    //     .populate ("name","name")
+    //     .populate ("tag","name")
+    //     .then((result) => res.json(result))
+    //     .catch(err => {
+    //         throw err
+    //     })
+    // }
 }

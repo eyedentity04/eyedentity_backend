@@ -23,6 +23,7 @@ router.delete("/delete/:postID",postController.deletebyID)
 router.put("/edit/:postID",upload.single("image"),postController.editByID)
 router.get('/test',postController.getAllDataTest)
 router.get('/yourPost',postController.showUserPost)
+// router.get('/show/:userId',postController.showUserPostById)
 // router.get('/yourPostQuery',postController.showUserPostQuery)
 
 

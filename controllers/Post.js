@@ -108,6 +108,13 @@ module.exports={
             throw err
         })
     },
+    // showUserPostById : (req,res) => {
+    //     Post.findById(req.params.userId)
+    //     .then((result)=>{
+    //         res.json(result)
+    //     })
+    //     .catch((err) => res.json(err))
+    // },
     // showUserPostQuery : (req,res) => {
     //     const user = new RegExp(req.query["name"],"i")
     //     Post.find({user})

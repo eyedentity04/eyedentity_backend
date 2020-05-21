@@ -27,4 +27,5 @@ router.put('/edit',upload.single('image'),userControllers.editUser)
 router.get('/findBody',userControllers.findUserBody)
 router.get('/findQuery',userControllers.findUserQuery)
 
+
 module.exports = router

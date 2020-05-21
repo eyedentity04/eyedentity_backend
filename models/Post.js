@@ -6,6 +6,7 @@ const TagPlace = require("./TagPlace");
 // const Comment = require('./Comment')
 
 const postSchema = new Schema({
+  
   name: {
     type: Schema.Types.ObjectId,
     ref: User,

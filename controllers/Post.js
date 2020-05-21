@@ -99,11 +99,11 @@ module.exports={
     },
 
     showUserPost : (req,res) => {
-        const user = req.body.name
-        Post.find({user})
+        const name = req.body.name
+        Post.find({name})
         .populate ("name","name")
         .populate ("tag","name")
-        .then((result) => res.json(result))
+        .then((response) => res.json(response))
         .catch(err => {
             throw err
         })

@@ -1,45 +1,57 @@
-const Like = require("../models/Like") 
+const Like = require("../models/Like")
+const mongoose = require("mongoose")
 
 
 module.exports= {
     
-    // createLike : (req,res) => {
-    //     Like.findOne({user : req.body.user})
-    //     .then(result => {
-    //         console.log({user : req.body.user})
-    //         if(result){
-    //             return res
-    //                 .status(400)
-    //                     .json({user : "you can not like double"})
-    //         }else{
-    //            const newLike = new Like({
-    //                user : req.body.user,
-    //                post : req.body.post
-    //            })
-    //            newLike
-    //             .save()
-    //             .then((result)=> res.json(result))
-    //             .catch(err => {
-    //                 throw err
-    //             })
-    //         }
-    //     })
-    // },
+    
 
     createLike : (req,res) => {
-        Like.create({
-            like : req.body.like,
-            post : req.body.post
-        })
-        .then((result)=> res.json({
-            status : "succes",
-            result : result,
-            postID : result.post,
-            likeID : result.id
-        }))
-        .catch(err => {
-            throw err
-        })
+        var req
+       let condition
+       let update
+       if(req.body.targetPostId){
+           condition = {
+               ...condition,
+               postId : {
+                   $all:[
+                       {
+                           $elemMatch:{
+                               $eq : mongoose.Types.ObjectId(req.body.targetPostId)
+                           }
+                       }
+                   ]
+               }
+           }
+           update = {
+               ...update,
+               postId : [req.body.targetPostId]
+           }
+       }
+       Like.findOneAndUpdate(
+           {...condition},
+           {
+               $push:{
+                   like:[{
+                       userLike : req.body.userLike
+                   }]
+               },
+               $set:{
+                   ...update
+               }
+           },
+           {
+               upsert : true,
+               new : true
+           }
+          
+       ).then((response)=>{
+           res.json(response)
+       })
+       .catch((err)=>res.status(400).json(err))
+
+
+
     },
 
     deleteById : (req,res) => {
@@ -52,8 +64,8 @@ module.exports= {
 
     show : (req,res) => {
         Like.find({})
-        .populate("like","name")
-        .populate('post','_id')
+        .populate({path : "userLike"})
+        // .populate('post','_id')
         .then((result)=>res.json(result))
         .catch(err =>{
             throw err

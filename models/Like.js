@@ -6,21 +6,22 @@ const Post = require('./Post')
 
 const likeSchema = new Schema ({ 
 
-    like : {
-            type : Schema.Types.ObjectId,
-            ref : User,
-            
-        },
-        post : {
-            type : Schema.Types.ObjectId,
-            ref : Post
-        },
-        date : {
-            type : Date,
-            default : Date.now
-        }
+    userLike : {
+        type : Schema.Types.ObjectId,
+        ref : "user"
+    }
 
         
 })
 
-module.exports = mongoose.model("like",likeSchema)
+const SchemaLike = new Schema ({
+    like : [likeSchema],
+    postId :[
+        {
+            type : Schema.Types.ObjectId,
+            ref : "post"
+        }
+    ]
+})
+
+module.exports = mongoose.model("like",SchemaLike)

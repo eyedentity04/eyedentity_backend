@@ -16,13 +16,8 @@ module.exports={
                 lat : req.body.lat
             },
             // like:req.body.like,
+            // comment: req.body.comment,
 
-            // comment:{
-            //     comment: req.body.comment,
-            //     user: req.body.user
-            // }
-            // date:req.body.date
-            
         })
         .then ((response) => res.json(response))
         .catch (err => {
@@ -34,8 +29,8 @@ module.exports={
         Post.find ({})
         .populate ("name","name")
         .populate ("tag","name")
-        // .populate ("like","name")
-        // .populate ("comment.user","name")
+        // .populate ("like")
+        .populate ({path : "comment"})
         .populate ({path : "post",populate:{path : "tagPlace"}})
         .then((response) => res.json(response,))
         .catch (err => {

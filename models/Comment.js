@@ -1,28 +1,37 @@
 const mongoose = require ('mongoose')
 const Schema = mongoose.Schema
-const User = require('./User')
-const Post = require ('./Post')
+// const User = require('./User')
+// const Post = require ('./Post')
 
 const commentSchema = new Schema ({
-
-        comment : {
-            type : String
-        },
-        user :{
-            type : Schema.Types.ObjectId,
-            ref : User
-        },
-        post : {
-            type : Schema.Types.ObjectId,
-            ref : Post
-        },
-
-        date :{
-            type : Date,
-            default : Date.now
-        }
-        
-
+    userComment : {
+        type : Schema.Types.ObjectId,
+        ref : "user"
+    },
+    like :{
+        type : Schema.Types.ObjectId,
+        ref : "like"
+    },
+    commentText : {
+        type : String
+    }
 })
 
-module.exports = mongoose.model("comment",commentSchema)
+const schemaComment = new Schema ({
+    comment : [commentSchema],
+    postId :[
+        {
+            type : Schema.Types.ObjectId,
+            ref : "post",
+            require : true
+        }
+    ],
+    likeId :[
+        {
+            type : Schema.Types.ObjectId,
+            ref : "like"
+        }
+    ]
+})
+    
+module.exports = mongoose.model("comment",schemaComment)

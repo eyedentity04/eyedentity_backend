@@ -1,41 +1,62 @@
-const Comment = require("../models/Comment") 
+const Comment = require("../models/Comment")
+const Post = require("../models/Post")
+const mongoose = require("mongoose");
 
 
 module.exports= {
     
-    // createLike : (req,res) => {
-    //     Like.findOne({user : req.body.user})
-    //     .then(result => {
-    //         console.log({user : req.body.user})
-    //         if(result){
-    //             return res
-    //                 .status(400)
-    //                     .json({user : "you can not like double"})
-    //         }else{
-    //            const newLike = new Like({
-    //                user : req.body.user,
-    //                post : req.body.post
-    //            })
-    //            newLike
-    //             .save()
-    //             .then((result)=> res.json(result))
-    //             .catch(err => {
-    //                 throw err
-    //             })
-    //         }
-    //     })
-    // },
+    
 
     createComment : (req,res) => {
-       Comment.create({
-           comment : req.body.comment,
-           user : req.body.user,
-           post : req.body.post
-       }).then((result) =>res.json(result))
-       .catch(err =>{
-           throw err
-       })
-        
+        var req
+        let condition
+        let update
+        if(req.body.targetPostId){
+            condition = {
+                ...condition,
+                postId :{
+                    $all:[
+                        {
+                            $elemMatch:{
+                                $eq : mongoose.Types.ObjectId(req.body.targetPostId)
+                            }
+                        }
+                    ]
+                }
+            }
+            update ={
+                ...update,
+                postId : [req.body.targetPostId],
+                likeId : [req.body.likeId]
+            }
+        }
+        Comment.findOneAndUpdate(
+            {...condition},
+            {
+                $push:{
+                    comment :[{
+                        userComment : req.body.userComment,
+                        commentText : req.body.commentText
+                        
+                    
+                    }]
+                        
+                    
+                },
+                $set:{
+                    ...update
+                },
+                
+            },
+            {
+                upsert : true,
+                new : true
+            }
+        ).then((response) => {
+             res.json(response);
+          })
+          .catch((err) => res.status(400).json(err));
+   
     },
 
     deleteById : (req,res) => {

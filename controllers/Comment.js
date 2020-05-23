@@ -27,7 +27,7 @@ module.exports= {
             update ={
                 ...update,
                 postId : [req.body.targetPostId],
-                likeId : [req.body.likeId]
+                // likeId : [req.body.likeId]
             }
         }
         Comment.findOneAndUpdate(
@@ -35,7 +35,7 @@ module.exports= {
             {
                 $push:{
                     comment :[{
-                        userComment : req.body.userComment,
+                        userComment : req.body.userId,
                         commentText : req.body.commentText
                         
                     

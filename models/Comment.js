@@ -8,10 +8,10 @@ const commentSchema = new Schema ({
         type : Schema.Types.ObjectId,
         ref : "user"
     },
-    like :{
-        type : Schema.Types.ObjectId,
-        ref : "like"
-    },
+    // like :{
+    //     type : Schema.Types.ObjectId,
+    //     ref : "like"
+    // },
     commentText : {
         type : String
     }
@@ -26,12 +26,12 @@ const schemaComment = new Schema ({
             require : true
         }
     ],
-    likeId :[
-        {
-            type : Schema.Types.ObjectId,
-            ref : "like"
-        }
-    ]
+    // likeId :[
+    //     {
+    //         type : Schema.Types.ObjectId,
+    //         ref : "like"
+    //     }
+    // ]
 })
     
 module.exports = mongoose.model("comment",schemaComment)

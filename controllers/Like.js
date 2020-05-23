@@ -7,34 +7,35 @@ module.exports= {
     
 
     createLike : (req,res) => {
-        var req
+    var req
        let condition
        let update
+       console.log(req.body.userId)
        if(req.body.targetPostId){
            condition = {
-               ...condition,
-               postId : {
-                   $all:[
-                       {
-                           $elemMatch:{
-                               $eq : mongoose.Types.ObjectId(req.body.targetPostId)
-                           }
-                       }
-                   ]
-               }
+            //    ...condition,
+            //    postId : {
+                //    $all:[
+                //        {
+                //            $elemMatch:{
+                //                $eq : mongoose.Types.ObjectId(req.body.targetPostId)
+                //            }
+                //        }
+                //    ]
+            //    }
+            postId: mongoose.Types.ObjectId(req.body.targetPostId)
            }
            update = {
-               ...update,
+            //    ...update,
                postId : [req.body.targetPostId]
            }
        }
        Like.findOneAndUpdate(
-           {...condition},
+           condition,
            {
+               ...update,
                $push:{
-                   like:[{
-                       userLike : req.body.userLike
-                   }]
+                   like:[{userLike: req.body.userId}]
                },
                $set:{
                    ...update

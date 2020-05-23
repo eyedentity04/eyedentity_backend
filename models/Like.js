@@ -5,23 +5,23 @@ const Post = require('./Post')
 
 
 const likeSchema = new Schema ({ 
-
-    userLike : {
-        type : Schema.Types.ObjectId,
-        ref : "user"
-    }
+    userLike: Schema.Types.ObjectId
+    // userLike : {
+    //     _id: false,
+    //     type : Schema.Types.ObjectId,
+    //     ref : "user"
+    // }
 
         
 })
 
 const SchemaLike = new Schema ({
     like : [likeSchema],
-    postId :[
+    postId :
         {
             type : Schema.Types.ObjectId,
             ref : "post"
         }
-    ]
 })
 
 module.exports = mongoose.model("like",SchemaLike)

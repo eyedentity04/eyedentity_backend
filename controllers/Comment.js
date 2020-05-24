@@ -66,18 +66,18 @@ module.exports= {
         Comment.findByIdAndRemove(req.params.commentID)
         .then((result) => res.json(result))
         .catch(err => {
-            throw err
+            res.status(400).json(err)
         })
     },
 
     show : (req,res) => {
         Comment.find({})
         .populate("user","name")
-        .populate("post","_id")
-        // .populate({path : "post",populate:{path : "post"}})
+        .populate("post")
+        .populate("like")
         .then((result)=>res.json(result))
         .catch(err =>{
-            throw err
+            res.status(400).json(err)
         })
     },
     editByID : (req,res) =>{
@@ -88,7 +88,7 @@ module.exports= {
         })
         .then((result) => res.json(result))
         .catch(err =>{
-            throw err
+            res.status(400).json(err)
         })
     },
     getDatabyID: (req,res) => {
@@ -97,7 +97,7 @@ module.exports= {
         .populate("post","_id")
         .then ((result) => res.json(result))
         .catch (err => {
-            throw err
+            res.status(400).json(err)
         }) 
 
     },
@@ -106,7 +106,7 @@ module.exports= {
        Comment.find({post})
        .then((result)=>res.json(result))
        .catch(err =>{
-           throw err
+        res.status(400).json(err)
        })
    }
     

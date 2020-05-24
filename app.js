@@ -44,7 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users',usersRouter);
 app.use('/like',validateUser,likeRouter)
-app.use('/comment',commentRouter)
+app.use('/comment',validateUser,commentRouter)
 app.use('/post',validateUser,postRouter)
 
 

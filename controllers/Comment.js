@@ -23,19 +23,22 @@ module.exports= {
                         }
                     ]
                 }
+               
             }
+            
             update ={
                 ...update,
-                postId : [req.body.targetPostId],
-                // likeId : [req.body.likeId]
+                postId : req.body.targetPostId,
+                likeId : req.body.likeId
             }
         }
         Comment.findOneAndUpdate(
-            {...condition},
+            condition,
             {
+                ...update,
                 $push:{
                     comment :[{
-                        userComment : req.body.userId,
+                        userComment : req.body.userComment,
                         commentText : req.body.commentText
                         
                     

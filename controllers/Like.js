@@ -54,6 +54,17 @@ module.exports= {
 
 
     },
+    like:(req,res) =>{
+      Like.aggregate([{
+        $project:{
+          _id : 0,
+          postId : 1,
+          likes : {$cond: {if : {$isArray : "$like"}, then : {$size : "$like"},else : 0}}
+        }
+      }])
+      .then(result => res.json(result))
+      .catch(err => status(400).json(err))
+    },
 
     deleteById : (req,res) => {
         Like.findByIdAndRemove(req.params.likeID)

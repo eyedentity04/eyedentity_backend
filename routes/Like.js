@@ -9,5 +9,7 @@ router.delete('/del/:likeID',likeControler.deleteById)
 router.get('/show',likeControler.show)
 router.put('/edit/:likeID',likeControler.editByID)
 router.get('/find',likeControler.showLikePost)
+router.get('/like',likeControler.like)
+
 
 module.exports = router

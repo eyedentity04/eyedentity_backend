@@ -1,4 +1,5 @@
 const Post = require ('../models/Post')
+const mongoose = require("mongoose");
 
 
 
@@ -17,7 +18,6 @@ module.exports={
             },
             // like:req.body.like,
             // comment: req.body.comment,
-
         })
         .then ((response) => res.json(response))
         .catch (err => {
@@ -26,18 +26,77 @@ module.exports={
     },
 
     getAllData : (req,res) => {
-        Post.find ({})
-        .populate ("name","name")
-        .populate ("tag","name")
-        .populate({path : "comment"})
-        .populate({path : "like"})
-        .populate ("like")
-        .populate ("comment")
-        .populate ({path : "post",populate:{path : "tagPlace"}})
-        .then((response) => res.json(response,))
-        .catch (err => {
-            throw err
-        }) 
+        Post
+        .aggregate([{
+            $lookup: {
+                from: 'likes',
+                localField: '_id',
+                foreignField: 'postId',
+                as : 'likes'
+            }
+        },{
+            $addFields: {
+                likes2: {
+                    "$arrayElemAt": ["$likes", 0]
+                }
+            }
+        }, {
+            $addFields: {
+                likes3: "$likes2.like",
+                likesCount: {
+                    $cond: {
+                        if: {
+                            $isArray: "$likes2.like"
+                        },
+                        then: {$size: "$likes2.like"},
+                        else: 0
+                    }
+                }
+            }
+        }, {
+            $addFields: {
+                likedByMe: {$toBool: {
+                    $size: { $filter: { input: "$likes3", cond:{$eq: ["$$this.userLike", mongoose.Types.ObjectId(req.body.userId)]}}}
+                }}
+            }
+        }, {
+            $project: {
+                likes: 0,
+                likes2: 0
+            }
+        }
+        ]).then ( resultLike => {
+           
+                Post.find ({})
+                .populate ("tag","name")
+                .populate({path : "comment"})
+                .populate({path : "like"})
+                .populate ("like")
+                .populate ("comment")
+                .populate ({path : "post",populate:{path : "tagPlace"}})
+                .then((response) => {
+                    let newResponse = []
+                    if (response && response.length){
+                        newResponse = response.map(responseItem => {
+                            const found = resultLike.find(item => {
+                                return  JSON.stringify(responseItem._id) == JSON.stringify(item._id);
+                            })
+                            let newItem = responseItem;
+                            if (found){
+                                newItem = {...found, responseItem}
+                            }
+                            return newItem
+                        })
+                    }
+                    res.json(newResponse)
+                    
+                })
+                .catch (err => {
+                    throw err
+                })
+            })
+        // })
+         
     },
 
     getAllDataTest : (req,res) => {

@@ -92,10 +92,12 @@ module.exports= {
 
     },
    getCommentByTargetId : (req,res) => {
-       console.log(req.body.postId,req.params.targetPostId)
+    //    console.log(req.body.postId,req.params.targetPostId)
        Comment.find({
           postId : req.params.targetPostId
         })
+        .populate({path : "postId" })
+        .populate({path : "comment.userComment",model: "users"})
        .then((result)=>res.json(result))
        .catch((err) => res.status(400).json(err))
    }

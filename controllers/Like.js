@@ -104,7 +104,7 @@ module.exports= {
     },
     Hitung : (req,res)  => {
         Like.find({postId : req.params.postId})
-
+        
         .then((result)=> res.json(result))
         .catch(err => {
             throw err

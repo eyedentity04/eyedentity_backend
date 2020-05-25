@@ -102,7 +102,7 @@ module.exports={
 
     getAllDataTest : (req,res) => {
         Post.find({})
-        .sort({date : 'desc'})
+        // .sort({date : 'desc'})
         .populate ("name","name")
         .populate ("tag","name")
         .populate("comment")

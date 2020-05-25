@@ -19,19 +19,19 @@ const commentSchema = new Schema ({
 
 const schemaComment = new Schema ({
     comment : [commentSchema],
-    postId :[
+    postId :
         {
             type : Schema.Types.ObjectId,
             ref : "post",
             require : true
         }
-    ],
-    likeId :[
+    ,
+    likeId :
         {
             type : Schema.Types.ObjectId,
             ref : "like"
         }
-    ]
+    
 })
     
 module.exports = mongoose.model("comment",schemaComment)

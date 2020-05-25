@@ -68,7 +68,7 @@ module.exports={
         ]).then ( resultLike => {
             
                 Post.find ({})
-                .sort({date : 'desc'})
+                // .sort({date : 'desc'})
                 .populate ("tag","name")
                 .populate({path : "comment"})
                 .populate({path : "like"})

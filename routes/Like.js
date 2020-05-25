@@ -10,6 +10,7 @@ router.get('/show',likeControler.show)
 router.put('/edit/:likeID',likeControler.editByID)
 router.get('/find',likeControler.showLikePost)
 router.get('/like',likeControler.like)
+router.get('/count/:targetPost',likeControler.Hitung)
 
 
 module.exports = router

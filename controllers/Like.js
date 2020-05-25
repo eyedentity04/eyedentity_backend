@@ -1,28 +1,24 @@
 const Like = require("../models/Like")
 const mongoose = require("mongoose")
 
-
 module.exports= {
-    
-    
-
     createLike : (req,res) => {
         var req
        let condition
        let update
 
-       Like.findOne({
-           postId: mongoose.Types.ObjectId(req.body.targetPostId),
-           like: {
-               $elemMatch: {
-                   userLike: req.body.userId
-               }
-           }
-       })
-       .then(response => {
-           console.log(response.like);
-        //     
-       })
+    //    Like.findOne({
+    //        postId: mongoose.Types.ObjectId(req.body.targetPostId),
+    //        like: {
+    //            $elemMatch: {
+    //                userLike: req.body.userId
+    //            }
+    //        }
+    //    })
+    //    .then(response => {
+    //        console.log(response.like);
+
+    //    })
        
        if(req.body.targetPostId){
            condition = {
@@ -39,6 +35,9 @@ module.exports= {
            condition,
            {
                ...update,
+               $push:{
+                    like:[{userLike: req.body.userId}]
+                },
                $set:{
                    ...update
                }
@@ -49,13 +48,12 @@ module.exports= {
            }
           
        ).then((response)=>{
+           console.log('di like',response);
            res.json(response)
        })
        .catch((err)=>res.status(400).json(err))
-
-
-
     },
+
     like:(req,res) =>{
       Like.aggregate([{
         $project:{
@@ -85,6 +83,7 @@ module.exports= {
             throw err
         })
     },
+
     editByID : (req,res) =>{
         Like.findByIdAndUpdate(req.params.likeID,{
             like : req.body.like,
@@ -100,6 +99,14 @@ module.exports= {
         Comment.find({post})
         .then((result)=>res.json(result))
         .catch(err =>{
+            throw err
+        })
+    },
+    Hitung : (req,res)  => {
+        Like.find({postId : req.params.postId})
+
+        .then((result)=> res.json(result))
+        .catch(err => {
             throw err
         })
     }

@@ -9,7 +9,8 @@ router.delete('/del/:commentID',commentControler.deleteById)
 router.get('/show',commentControler.show)
 router.put('/edit/:commentID',commentControler.editByID)
 router.get('/show/:commentID',commentControler.getDatabyID)
-router.get('/find',commentControler.showCommentPost)
+router.get('/find/:targetPostId',commentControler.getCommentByTargetId)
+
 
 
 module.exports = router

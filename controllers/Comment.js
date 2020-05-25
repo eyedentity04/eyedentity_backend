@@ -4,32 +4,28 @@ const mongoose = require("mongoose");
 
 
 module.exports= {
-    
-    
-
     createComment : (req,res) => {
         var req
         let condition
         let update
         if(req.body.targetPostId){
             condition = {
-                ...condition,
-                postId :{
-                    $all:[
-                        {
-                            $elemMatch:{
+                // ...condition,
+                postId : {
+                    // $all: [
+                    //     {
+                    //         $elemMatch:{
                                 $eq : mongoose.Types.ObjectId(req.body.targetPostId)
-                            }
-                        }
-                    ]
+                        //     }
+                        // }
+                    // ]
                 }
-               
             }
-            
-            update ={
-                ...update,
+
+            update = {
+                // ...update,
                 postId : req.body.targetPostId,
-                likeId : req.body.likeId
+                // likeId : req.body.likeId
             }
         }
         Comment.findOneAndUpdate(
@@ -38,18 +34,13 @@ module.exports= {
                 ...update,
                 $push:{
                     comment :[{
-                        userComment : req.body.userComment,
+                        userComment : req.body.userId,
                         commentText : req.body.commentText
-                        
-                    
                     }]
-                        
-                    
                 },
                 $set:{
                     ...update
-                },
-                
+                }
             },
             {
                 upsert : true,
@@ -59,7 +50,6 @@ module.exports= {
              res.json(response);
           })
           .catch((err) => res.status(400).json(err));
-   
     },
 
     deleteById : (req,res) => {
@@ -101,14 +91,16 @@ module.exports= {
         }) 
 
     },
-   showCommentPost : (req,res) => {
-       const post = req.body.post
-       Comment.find({post})
+   getCommentByTargetId : (req,res) => {
+       console.log(req.body.postId,req.params.targetPostId)
+       Comment.find({
+          postId : req.params.targetPostId
+        })
        .then((result)=>res.json(result))
-       .catch(err =>{
-        res.status(400).json(err)
-       })
+       .catch((err) => res.status(400).json(err))
    }
+
+   
     
 
 }

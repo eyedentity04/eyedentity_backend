@@ -127,7 +127,7 @@ module.exports = {
   // },
 
   getUserData: (req, res) => {
-    User.find({})
+    User.find()
       .then((result) => res.json(result))
       .catch((err) => {
         throw err;

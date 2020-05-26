@@ -190,7 +190,7 @@ module.exports = {
         Post
             .find({})
             .sort({date: 'desc'})
-            .populate("name", "name")
+            .populate("name")
             .populate("tag", "name")
             .populate("comment")
             .populate("like")

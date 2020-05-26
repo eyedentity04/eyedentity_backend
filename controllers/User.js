@@ -149,7 +149,7 @@ module.exports = {
         User.findByIdAndUpdate(
           userId,
           {
-            username: req.body.username || result.username,
+            name: req.body.name || result.name,
             about: req.body.about || result.about,
             image: (req.file && req.file.path) || result.image,
             backGroundImage : (req.file && req.file.path) || result.backGroundImage

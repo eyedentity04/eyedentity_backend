@@ -19,12 +19,15 @@ const userSchema = new Schema({
     },
     image : {
         type : String,
+        default : "./public/images/2020-05-26T11:01:58.276Zjoker.jpeg"
     },
     backGroundImage : {
-        type : String
+        type : String,
+        default : "./public/images/2020-05-26T11:01:58.276Zjoker.jpeg"
     },
     about : {
-        type : String
+        type : String,
+        default : "tell me about you"
     }
 
 });

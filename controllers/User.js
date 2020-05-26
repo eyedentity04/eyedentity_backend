@@ -143,7 +143,7 @@ module.exports = {
   },
 
   editUser: (req, res) => {
-    userId = req.body.userId;
+    userId = req.params.userId;
     User.findById(userId)
       .then((result) => {
         User.findByIdAndUpdate(

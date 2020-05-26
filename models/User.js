@@ -20,6 +20,9 @@ const userSchema = new Schema({
     image : {
         type : String,
     },
+    backGroundImage : {
+        type : String
+    },
     about : {
         type : String
     }

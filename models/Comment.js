@@ -13,7 +13,8 @@ const commentSchema = new Schema ({
     //     ref : "like"
     // },
     commentText : {
-        type : String
+        type : String,
+        require : true
     }
 })
 

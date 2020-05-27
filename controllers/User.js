@@ -155,6 +155,7 @@ module.exports = {
             backGroundImage : (req.file && req.file.path) || result.backGroundImage
           },
           {
+            upsert : true,
             new: true,
           }
         )

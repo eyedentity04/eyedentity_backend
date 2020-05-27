@@ -27,11 +27,11 @@ router.delete('/del/:userId',userControllers.deleteUSerData)
 router.put('/edit/:userId',upload.fields([
     {
         name : "image",
-        maxCount : 1
+        maxCount : 5
     },
     {
         name : "backGroundImage",
-        maxCount : 1
+        maxCount : 5
     }
 ]),userControllers.editUser)
 router.get('/findBody',userControllers.findUserBody)

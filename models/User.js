@@ -17,7 +17,7 @@ const userSchema = new Schema({
         type : String,
         required : true
     },
-    image : {
+    images : {
         type : String,
         default : "./public/images/2020-05-26T11:01:58.276Zjoker.jpeg"
     },

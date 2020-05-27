@@ -25,7 +25,7 @@ module.exports= {
             update = {
                 // ...update,
                 postId : req.body.targetPostId,
-                // likeId : req.body.likeId
+                likeId : req.body.likeId
             }
         }
         Comment.findOneAndUpdate(
@@ -63,8 +63,9 @@ module.exports= {
     show : (req,res) => {
         Comment.find({})
         .populate("user","name")
-        .populate("post")
-        .populate("like")
+        .populate({path : "postId" ,populate:{path : "tag"}})
+        .populate({path : "comment.userComment",model: "users"})
+        .populate({path : "likeId"})
         .then((result)=>res.json(result))
         .catch(err =>{
             res.status(400).json(err)

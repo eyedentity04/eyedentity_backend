@@ -27,11 +27,11 @@ const schemaComment = new Schema ({
             require : true
         }
     ,
-    // likeId :
-    //     {
-    //         type : Schema.Types.ObjectId,
-    //         ref : "like"
-    //     }
+    likeId :
+        {
+            type : Schema.Types.ObjectId,
+            ref : "like"
+        }
     
 })
     

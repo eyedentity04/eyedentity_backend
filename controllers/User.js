@@ -143,7 +143,14 @@ module.exports = {
   },
 
   editUser: (req, res) => {
-    userId = req.params.userId;
+    userId = req.params.userId
+    // let obj = {}
+    // req.body.name && (obj.name = req.body.name)
+    // req.body.about && (obj.about = req.body.about)
+    // console.log(req.files)
+
+    // let obj = Object.assign({}, req.body )
+    
     User.findById(userId)
       .then((result) => {
         User.findByIdAndUpdate(
@@ -151,11 +158,10 @@ module.exports = {
           {
             name: req.body.name || result.name,
             about: req.body.about || result.about,
-            image: (req.file && req.file.path) || result.image,
-            backGroundImage : (req.file && req.file.path) || result.backGroundImage
+            image: (req.files.image && req.files.image[0].path) || result.image,
+            backGroundImage : (req.files.backGroundImage && req.files.backGroundImage[0].path) || result.backGroundImage
           },
           {
-            upsert : true,
             new: true,
           }
         )

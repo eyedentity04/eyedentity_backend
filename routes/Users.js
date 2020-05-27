@@ -6,7 +6,7 @@ const multer = require('multer')
 
 const storage = multer.diskStorage({
     destination: function (req,res,cb){
-        cb(null, "./public/images" )
+        cb(null, "./public/user" )
     },
     filename: function(req,file,cb){
         cb(null, new Date().toISOString()+file.originalname)
@@ -27,11 +27,11 @@ router.delete('/del/:userId',userControllers.deleteUSerData)
 router.put('/edit/:userId',upload.fields([
     {
         name : "image",
-        maxCount : 5
+        maxCount : 2
     },
     {
         name : "backGroundImage",
-        maxCount : 5
+        maxCount : 2
     }
 ]),userControllers.editUser)
 router.get('/findBody',userControllers.findUserBody)

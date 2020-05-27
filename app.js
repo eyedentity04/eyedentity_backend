@@ -16,7 +16,7 @@ var postRouter = require ('./routes/Post')
 var commentRouter = require ('./routes/Comment')
 
 var app = express();
-mongodConnect = process.env.DB_EYEDENTITY;
+mongodConnect = process.env.DB_LOCAL_EYEDENTITY;
 mongoose.connect(mongodConnect, {
   useNewUrlParser: true,
   useUnifiedTopology: true

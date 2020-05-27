@@ -17,13 +17,15 @@ const userSchema = new Schema({
         type : String,
         required : true
     },
-    images : {
+    image : {
         type : String,
-        default : "./public/images/2020-05-26T11:01:58.276Zjoker.jpeg"
+        default : "./public/user/2020-05-27T11:38:57.373Zmonkey.jpeg"
+        
     },
     backGroundImage : {
         type : String,
-        default : "./public/images/2020-05-26T11:01:58.276Zjoker.jpeg"
+        default : "./public/user/2020-05-27T11:38:57.373Zmonkey.jpeg"
+       
     },
     about : {
         type : String,

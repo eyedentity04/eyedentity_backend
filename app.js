@@ -42,10 +42,10 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/like", likeRouter);
-app.use("/comment", commentRouter);
-app.use("/post", postRouter);
-app.use("/friends", friendsRouter);
+app.use("/like", validateUser, likeRouter);
+app.use("/comment", validateUser, commentRouter);
+app.use("/post", validateUser, postRouter);
+app.use("/friends", validateUser, friendsRouter);
 
 function validateUser(req, res, next) {
   jwt.verify(req.headers["token"], process.env.PRIVATE_KEY, (err, decoded) => {

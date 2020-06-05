@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 module.exports = {
   addFriends: (req, res) => {
     Friends.findOne({ "friends.users": req.body.users }).then((result) => {
+      console.log(result);
       if (result) {
         return res.status(400).json({
           friendsAdds: "you have been added this friends in your friends list",

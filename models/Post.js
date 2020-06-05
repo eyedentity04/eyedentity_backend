@@ -2,11 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const User = require("./User");
 const TagPlace = require("./TagPlace");
-const Like = require('./Like')
-const Comment = require('./Comment')
+const Like = require("./Like");
+const Comment = require("./Comment");
 
 const postSchema = new Schema({
-  
   name: {
     type: Schema.Types.ObjectId,
     ref: User,
@@ -24,12 +23,12 @@ const postSchema = new Schema({
   // like:[{
   //     type:Schema.Types.ObjectId,
   //     ref:Like,
-      
+
   // }],
   // comment : [{
   //     type : Schema.Types.ObjectId,
   //     ref : "comment"
-     
+
   // }],
 
   tag: [
@@ -58,11 +57,17 @@ const postSchema = new Schema({
     },
   ],
 
+  like: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+  ],
+
   date: {
     type: Date,
     default: Date.now,
   },
-  
 });
 
 module.exports = mongoose.model("post", postSchema);

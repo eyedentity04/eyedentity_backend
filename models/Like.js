@@ -4,18 +4,18 @@ const User = require("./User");
 const Post = require("./Post");
 
 const likeSchema = new Schema({
-  // userLike: Schema.Types.ObjectId
   userLike: {
     type: Schema.Types.ObjectId,
-    ref: "user",
+    ref: User,
   },
 });
 
 const SchemaLike = new Schema({
   like: [likeSchema],
+
   postId: {
     type: Schema.Types.ObjectId,
-    ref: "post",
+    ref: Post,
   },
 });
 

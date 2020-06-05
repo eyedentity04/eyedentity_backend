@@ -17,7 +17,7 @@ var commentRouter = require("./routes/Comment");
 var friendsRouter = require("./routes/Friends");
 
 var app = express();
-mongodConnect = process.env.DB_LOCAL_EYEDENTITY;
+mongodConnect = process.env.DB_EYEDENTITY;
 mongoose.connect(mongodConnect, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

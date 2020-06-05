@@ -119,6 +119,7 @@ module.exports = {
     Comment.find({
       postId: req.params.targetPostId,
     })
+      .sort({ date: "desc" })
       .populate({ path: "postId" })
       .populate({ path: "comment.userComment", model: "users" })
       .then((result) => res.json(result))

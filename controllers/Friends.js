@@ -2,8 +2,7 @@ const Friends = require("../models/Friends");
 const mongoose = require("mongoose");
 
 module.exports = {
-
-  addFriends : (req,res) => {
+  addFriends: (req, res) => {
     let condition;
     let update;
 
@@ -40,7 +39,7 @@ module.exports = {
     )
       .then((result) => res.json(result))
       .catch((err) => status(400).json(err));
-  }
+  },
 
   // addFriends: (req, res) => {
   //   Friends.findOne({ "friends.users": req.body.users }).then((result) => {

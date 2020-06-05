@@ -28,12 +28,12 @@ const userSchema = new Schema({
     type: String,
     default: "tell me about you",
   },
-  like: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "post",
-    },
-  ],
+  // like: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "post",
+  //   },
+  // ],
 });
 
 // userSchema.pre("save",function(next){

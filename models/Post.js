@@ -57,12 +57,12 @@ const postSchema = new Schema({
     },
   ],
 
-  like: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "users",
-    },
-  ],
+  // like: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "users",
+  //   },
+  // ],
 
   date: {
     type: Date,

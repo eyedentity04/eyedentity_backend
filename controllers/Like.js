@@ -3,54 +3,42 @@ const mongoose = require("mongoose");
 
 module.exports = {
   createLike: (req, res) => {
-    Like.findOne({ "like.userLike": { $in: [req.body.userLike] } }).then(
-      (result) => {
-        console.log(result.postId);
-        console.log(result);
-        if (result) {
-          return res
-            .status(400)
-            .json({ likeAdded: "you can not like post twice" });
-        } else {
-          let condition;
-          let update;
-          if (req.body.postId) {
-            condition = {
-              postId: {
-                $eq: mongoose.Types.ObjectId(req.body.postId),
-              },
-            };
-            update = {
-              postId: req.body.postId,
-            };
-          }
+    let condition;
+    let update;
+    if (req.body.postId) {
+      condition = {
+        postId: {
+          $eq: mongoose.Types.ObjectId(req.body.postId),
+        },
+      };
+      update = {
+        postId: req.body.postId,
+      };
+    }
 
-          Like.findOneAndUpdate(
-            condition,
+    Like.findOneAndUpdate(
+      condition,
+      {
+        ...update,
+        $push: {
+          like: [
             {
-              ...update,
-              $push: {
-                like: [
-                  {
-                    userLike: req.body.userLike,
-                  },
-                ],
-              },
-              $set: {
-                ...update,
-              },
+              userLike: req.body.userLike,
             },
-            {
-              upsert: true,
-              new: true,
-              useFindAndModify: false,
-            }
-          )
-            .then((result) => res.json(result))
-            .catch((err) => res.json(err));
-        }
+          ],
+        },
+        $set: {
+          ...update,
+        },
+      },
+      {
+        upsert: true,
+        new: true,
+        useFindAndModify: false,
       }
-    );
+    )
+      .then((result) => res.json(result))
+      .catch((err) => res.json(err));
   },
 
   like: (req, res) => {

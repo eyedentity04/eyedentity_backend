@@ -53,9 +53,9 @@ module.exports = {
           }else{
             return res.status(400).json("kamu tidak bisa add temen yang sama ")
           }
-        })
+        }).catch(err=> status(400).json(err))
       }
-    })
+    }).catch(err => status(400).json(err))
   },
 
   // addFriends: (req, res) => {

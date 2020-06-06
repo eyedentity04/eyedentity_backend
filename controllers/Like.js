@@ -58,9 +58,9 @@ module.exports = {
         }else{
           create()
         }
-      })
+      }).catch(err => status(400).json(err))
      }
-   })
+   }).catch(err => status(400).json(err))
   },
 
   // createLike: (req, res) => {

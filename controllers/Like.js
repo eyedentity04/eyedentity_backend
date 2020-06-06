@@ -7,14 +7,14 @@ module.exports = {
     let create =  () => {
       let condition;
     let update;
-    if (req.body.postId) {
+    if (req.body.targetPostId) {
       condition = {
         postId: {
-          $eq: mongoose.Types.ObjectId(req.body.postId),
+          $eq: mongoose.Types.ObjectId(req.body.targetPostId),
         },
       };
       update = {
-        postId: req.body.postId,
+        postId: req.body.targetPostId,
       };
     }
 
@@ -25,7 +25,7 @@ module.exports = {
         $push: {
           like: [
             {
-              userLike: req.body.userLike,
+              userLike: req.body.userId,
             },
           ],
         },

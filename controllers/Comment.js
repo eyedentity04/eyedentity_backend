@@ -114,59 +114,64 @@ module.exports = {
         res.status(400).json(err);
       });
   },
-  // getCommentByTargetId: (req, res) => {
-  //   Comment.find({
-  //     postId: req.params.targetPostId,
-  //   })
-  //     .populate({ path: "postId" })
-  //     .populate({ path: "comment.userComment", model: "users" })
-  //     .then((result) => res.json(result))
-  //     .catch((err) => res.status(400).json(err));
-  // },
   getCommentByTargetId: (req, res) => {
-    Comment.aggregate([
-      {
-        $project: {
-          postId: 1,
-          comment: { $reverseArray: "$comment" },
-        },
-      },
-    ])
-      .then((hasil) => {
-        Comment.find({ postId: req.params.targetPostId })
-          .populate({ path: "postId" })
-          .populate({ path: "comment.userComment", model: "users" })
-          .then((result) => {
-            let newResult = [];
-            if (result && result.length) {
-              newResult = result.map((resultItem) => {
-                const found = hasil.find((item) => {
-                  console.log(item._id);
-                  console.log(resultItem.id);
-                  return (
-                    JSON.stringify(resultItem._id) == JSON.stringify(item._id)
-                  );
-                });
-                let newItem = resultItem;
-                console.log(resultItem);
-                if (found) {
-                  newItem = {
-                    ...found,
-                    resultItem,
-                  };
-                }
-                return newItem;
-              });
-            }
-            console.log(newResult);
-            res.json(newResult);
-          })
-          .catch((err) => {
-            throw err;
-          });
+    Comment.find({
+      postId: req.params.targetPostId,
+    })
+      .populate({ path: "postId" })
+      .populate({ path: "comment.userComment", model: "users" })
+      .then((result) => {
+        let hasil = result.map((item)=> {
+          return res.json(item.comment.reverse())
+        })
+      }).catch(err => {
+        throw err
       })
-      .catch((err) => {
-        throw err;
-      });
   },
+  // getCommentByTargetId: (req, res) => {
+  //   Comment.aggregate([
+  //     {
+  //       $project: {
+  //         postId: 1,
+  //         comment: { $reverseArray: "$comment" },
+  //       },
+  //     },
+  //   ])
+  //     .then((hasil) => {
+  //       Comment.find({ postId: req.params.targetPostId })
+  //         .populate({ path: "postId" })
+  //         .populate({ path: "comment.userComment", model: "users" })
+  //         .then((result) => {
+  //           let newResult = [];
+  //           if (result && result.length) {
+  //             newResult = result.map((resultItem) => {
+  //               const found = hasil.find((item) => {
+  //                 console.log(item._id);
+  //                 console.log(resultItem.id);
+  //                 return (
+  //                   JSON.stringify(resultItem._id) == JSON.stringify(item._id)
+  //                 );
+  //               });
+  //               let newItem = resultItem;
+  //               console.log(resultItem);
+  //               if (found) {
+  //                 newItem = {
+  //                   ...found,
+  //                   resultItem,
+  //                 };
+  //               }
+  //               return newItem;
+  //             });
+  //           }
+  //           console.log(newResult);
+  //           res.json(newResult);
+  //         })
+  //         .catch((err) => {
+  //           throw err;
+  //         });
+  //     })
+  //     .catch((err) => {
+  //       throw err;
+  //     });
+  // },
 };

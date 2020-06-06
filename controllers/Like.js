@@ -4,10 +4,8 @@ const mongoose = require("mongoose");
 module.exports = {
 
   createLike : (req,res) =>{
-   Like.findOne({postId : req.body.postId})
-   .then(result => {
-     if(result == null){
-    let condition;
+    let create =  () => {
+      let condition;
     let update;
     if (req.body.postId) {
       condition = {
@@ -43,6 +41,12 @@ module.exports = {
     )
       .then((result) => res.json(result))
       .catch((err) => res.json(err));
+    }
+   Like.findOne({postId : req.body.postId})
+   .then(result => {
+     if(result == null){
+      create()
+
      }else{
       Like.findOne({"like.userLike" : req.body.userLike})
       .then(response => {
@@ -52,42 +56,7 @@ module.exports = {
             .status(400)
               .json("kamu tidak bisa like")
         }else{
-          let condition;
-          let update;
-          if (req.body.postId) {
-            condition = {
-              postId: {
-                $eq: mongoose.Types.ObjectId(req.body.postId),
-              },
-            };
-            update = {
-              postId: req.body.postId,
-            };
-          }
-      
-          Like.findOneAndUpdate(
-            condition,
-            {
-              ...update,
-              $push: {
-                like: [
-                  {
-                    userLike: req.body.userLike,
-                  },
-                ],
-              },
-              $set: {
-                ...update,
-              },
-            },
-            {
-              upsert: true,
-              new: true,
-              useFindAndModify: false,
-            }
-          )
-            .then((result) => res.json(result))
-            .catch((err) => res.json(err));
+          create()
         }
       })
      }

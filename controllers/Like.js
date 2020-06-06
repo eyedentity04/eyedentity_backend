@@ -42,13 +42,13 @@ module.exports = {
       .then((result) => res.json(result))
       .catch((err) => res.json(err));
     }
-   Like.findOne({postId : req.body.postId})
+   Like.findOne({postId : req.body.targetPostId})
    .then(result => {
      if(result == null){
       create()
 
      }else{
-      Like.findOne({"like.userLike" : req.body.userLike})
+      Like.findOne({"like.userLike" : req.body.userId})
       .then(response => {
         console.log(response)
         if(response){

@@ -2,8 +2,18 @@ const Comment = require("../models/Comment");
 const Post = require("../models/Post");
 const mongoose = require("mongoose");
 
+const validatorComment = require("../validator/Comment")
+
 module.exports = {
   createComment: (req, res) => {
+    const {errors , isValid} = validatorComment(req.body)
+
+    if(!isValid){
+      return res 
+        .status(400)
+          .json(errors)
+    }
+
     var req;
     let condition;
     let update;

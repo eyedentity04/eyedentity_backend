@@ -3,42 +3,91 @@ const mongoose = require("mongoose");
 
 module.exports = {
   addFriends: (req, res) => {
-    let condition;
-    let update;
-
-    if (req.body.usersId) {
-      condition = {
-        usersId: {
-          $eq: mongoose.Types.ObjectId(req.body.usersId),
-        },
-      };
-      update = {
-        usersId: req.body.users,
-      };
-    }
-
-    Friends.findOneAndUpdate(
-      condition,
-      {
-        ...update,
-        $push: {
-          friends: [
-            {
-              users: req.body.users,
+    Friends.findOne({usersId : req.body.usersId})
+    .then(result => {
+      if(result == null){
+        let condition;
+        let update;
+    
+        if (req.body.usersId) {
+          condition = {
+            usersId: {
+              $eq: mongoose.Types.ObjectId(req.body.usersId),
             },
-          ],
-        },
-        $set: {
-          ...update,
-        },
-      },
-      {
-        upsert: true,
-        new: true,
+          };
+          update = {
+            usersId: req.body.users,
+          };
+        }
+    
+        Friends.findOneAndUpdate(
+          condition,
+          {
+            ...update,
+            $push: {
+              friends: [
+                {
+                  users: req.body.users,
+                },
+              ],
+            },
+            $set: {
+              ...update,
+            },
+          },
+          {
+            upsert: true,
+            new: true,
+          }
+        )
+          .then((result) => res.json(result))
+          .catch((err) => status(400).json(err));
+      }else{
+        Friends.findOne({"friends.users" : req.body.users})
+        .then(response => {
+          if(response){
+            let condition;
+            let update;
+        
+            if (req.body.usersId) {
+              condition = {
+                usersId: {
+                  $eq: mongoose.Types.ObjectId(req.body.usersId),
+                },
+              };
+              update = {
+                usersId: req.body.users,
+              };
+            }
+        
+            Friends.findOneAndUpdate(
+              condition,
+              {
+                ...update,
+                $push: {
+                  friends: [
+                    {
+                      users: req.body.users,
+                    },
+                  ],
+                },
+                $set: {
+                  ...update,
+                },
+              },
+              {
+                upsert: true,
+                new: true,
+              }
+            )
+              .then((result) => res.json(result))
+              .catch((err) => status(400).json(err));
+          }else{
+            return res.status(400).json("kamu tidak bisa add temen yang sama ")
+          }
+        })
       }
-    )
-      .then((result) => res.json(result))
-      .catch((err) => status(400).json(err));
+    })
   },
 
   // addFriends: (req, res) => {

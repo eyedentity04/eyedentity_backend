@@ -1,5 +1,6 @@
 const Friends = require("../models/Friends");
 const mongoose = require("mongoose");
+const Post =  require ("../models/Post")
 
 module.exports = {
   addFriends: (req, res ) => {
@@ -14,7 +15,7 @@ module.exports = {
           },
         };
         update = {
-          usersId: req.body.users,
+          usersId: req.body.usersId,
         };
       }
   
@@ -48,10 +49,13 @@ module.exports = {
       }else{
         Friends.findOne({"friends.users" : req.body.users})
         .then(response => {
-          if(response){
+          console.log(response)
+          if(response == null){
            create()
           }else{
-            return res.status(400).json("kamu tidak bisa add temen yang sama ")
+            return res
+            .status(400)
+              .json("kamu tidak bisa add temen yang sama ")
           }
         }).catch(err=> status(400).json(err))
       }
@@ -159,4 +163,27 @@ module.exports = {
       .then((result) => res.json(result))
       .catch((err) => status(400).json(err));
   },
+
+  getPostFriends : (req,res) => {
+    Friends.findOne({usersId : req.params.usersId})
+    .then( result => {
+    let map = result.friends.map(item =>{
+      return item .users
+    })
+    Post.find({name : map})
+    .populate("name","name")
+    .populate("tag", "name")
+    .populate({
+      path: "post",
+      populate: {
+        path: "tagPlace",
+      },
+    })
+    .then(response => {
+      console.log(response)
+      res.json(response)
+    })
+    .catch(err => res.send(err))
+    }).catch(err => res.send(err))
+  }
 };

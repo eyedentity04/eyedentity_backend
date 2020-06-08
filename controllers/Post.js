@@ -271,12 +271,5 @@ module.exports = {
       .catch((err) => res.json(err));
   },
 
-  getPostFriends: (req, res) => {
-    Friends.findById(req.params.friendsId).then((result) => {
-      let friends = result.friends;
-      friends.map((item) => {
-        Post.find(item.users).then((result) => res.json(result));
-      });
-    });
-  },
+  
 };

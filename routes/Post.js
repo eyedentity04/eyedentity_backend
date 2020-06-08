@@ -26,6 +26,6 @@ router.get("/yourPost", postController.showUserPost);
 router.get("/find/:userId", postController.getPostByUser);
 router.get("/getPost", postController.getPost);
 // router.get('/yourPostQuery',postController.showUserPostQuery)
-router.get("/get/:friendsId", postController.getPostFriends);
+
 
 module.exports = router;

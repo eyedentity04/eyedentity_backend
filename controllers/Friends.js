@@ -171,6 +171,7 @@ module.exports = {
       return item .users
     })
     Post.find({name : map})
+    .sort({ date: "desc" })
     .populate("name","name")
     .populate("tag", "name")
     .populate({

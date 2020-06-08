@@ -269,6 +269,7 @@ module.exports = {
   showUserPost: (req, res) => {
     const name = req.body.name;
     Post.find({ name })
+      .sort({ date: "desc" })
       .populate("name", "name")
       .populate("tag", "name")
       .then((response) => res.json(response))

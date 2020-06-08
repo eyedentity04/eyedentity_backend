@@ -221,6 +221,17 @@ module.exports = {
 
   getDatabyID: (req, res) => {
     Post.findById(req.params.postID)
+      .populate("name")
+      .populate("tag", "name")
+      .populate("comment")
+      .populate("like")
+      .populate("comment.user", "name")
+      .populate({
+        path: "post",
+        populate: {
+          path: "tagPlace",
+        },
+      })
       .then((result) => res.json(result))
       .catch((err) => {
         throw err;

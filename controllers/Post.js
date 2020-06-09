@@ -221,6 +221,7 @@ module.exports = {
 
   getDatabyID: (req, res) => {
     Post.findById(req.params.postID)
+      .sort({ date: "desc" })
       .populate("name")
       .populate("tag", "name")
       .populate("comment")
@@ -282,6 +283,4 @@ module.exports = {
       .then((result) => res.json(result))
       .catch((err) => res.json(err));
   },
-
-  
 };

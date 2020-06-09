@@ -280,6 +280,7 @@ module.exports = {
   },
   getPostByUser: (req, res) => {
     Post.find({ name: req.params.userId })
+      .sort({ date: "desc" })
       .then((result) => res.json(result))
       .catch((err) => res.json(err));
   },

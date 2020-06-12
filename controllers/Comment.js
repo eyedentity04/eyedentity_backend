@@ -14,27 +14,22 @@ module.exports = {
           .json(errors)
     }
 
-    var req;
+  
     let condition;
     let update;
     if (req.body.targetPostId) {
       condition = {
-        // ...condition,
+
         postId: {
-          // $all: [
-          //     {
-          //         $elemMatch:{
+
           $eq: mongoose.Types.ObjectId(req.body.targetPostId),
-          //     }
-          // }
-          // ]
+  
         },
       };
 
       update = {
-        // ...update,
         postId: req.body.targetPostId,
-        likeId: req.body.likeId,
+        // likeId: req.body.likeId,
       };
     }
     Comment.findOneAndUpdate(
@@ -44,7 +39,7 @@ module.exports = {
         $push: {
           comment: [
             {
-              userComment: req.body.userId,
+              userComment: req.body.userComment,
               commentText: req.body.commentText,
             },
           ],
@@ -96,6 +91,7 @@ module.exports = {
     Comment.find({})
       .sort({ date: "desc" })
       .populate("user", "name")
+      .populate({path : "postID"})
       .populate({ path: "postId", populate: { path: "tag" } })
       .populate({ path: "comment.userComment", model: "users" })
       .populate({ path: "likeId" })
@@ -131,12 +127,19 @@ module.exports = {
       .populate({ path: "postId" })
       .populate({ path: "comment.userComment", model: "users" })
       .then((result) => {
-        let hasil = result.map((item)=> {
-          return res.json(item.comment.reverse())
+        
+        result.forEach((item)=> {
+          console.log(item)
+          if(item.comment == null || item.comment == undefined){
+            return res  
+              .status(400)
+                .json(err)
+          }else{
+            return res.json(item.comment.reverse())
+          }
+         
         })
-      }).catch(err => {
-        throw err
-      })
+      }).catch(err => res.status(400).json({status : "in this post there are not comment or something hapend", error : err}))
   },
   // getCommentByTargetId: (req, res) => {
   //   Comment.aggregate([

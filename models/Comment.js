@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-// const User = require('./User')
+const User = require('./User')
 // const Post = require ('./Post')
 
 const commentSchema = new Schema({
   userComment: {
     type: Schema.Types.ObjectId,
-    ref: "users",
+    ref: User
   },
   // like :{
   //     type : Schema.Types.ObjectId,
@@ -14,7 +14,7 @@ const commentSchema = new Schema({
   // },
   commentText: {
     type: String,
-    require: true,
+    required: true,
   },
   date: {
     type: Date,
@@ -29,10 +29,10 @@ const schemaComment = new Schema({
     ref: "post",
     require: true,
   },
-  likeId: {
-    type: Schema.Types.ObjectId,
-    ref: "like",
-  },
+  // likeId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "like",
+  // },
 });
 
 module.exports = mongoose.model("comment", schemaComment);

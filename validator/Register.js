@@ -15,6 +15,10 @@ module.exports = function validatorRegisterInput(data) {
     error.name = "please input your name";  
   }
 
+  if(!Validator.isLength(data.name,{min : 5 , max : 20})){
+    error.name = "name must be at least 5 and maxiaml 20"
+  }
+
   if (Validator.isEmpty(data.email)) {
     error.email = "email require";
   }else if (!Validator.isEmail(data.email)) {
@@ -27,7 +31,7 @@ module.exports = function validatorRegisterInput(data) {
   }
 
   if (!Validator.isLength(data.password, { min: 8, max: 30 })) {
-    error.password = "pasword must be at least * character";
+    error.password = "pasword must be at least 8 character and maximal 30";
   }
 
   if (Validator.isEmpty(data.confirmPassword)) {

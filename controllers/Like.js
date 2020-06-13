@@ -2,65 +2,63 @@ const Like = require("../models/Like");
 const mongoose = require("mongoose");
 
 module.exports = {
-
-  createLike : (req,res) =>{
-    let create =  () => {
+  createLike: (req, res) => {
+    let create = () => {
       let condition;
-    let update;
-    if (req.body.targetPostId) {
-      condition = {
-        postId: {
-          $eq: mongoose.Types.ObjectId(req.body.targetPostId),
-        },
-      };
-      update = {
-        postId: req.body.targetPostId,
-      };
-    }
-
-    Like.findOneAndUpdate(
-      condition,
-      {
-        ...update,
-        $push: {
-          like: [
-            {
-              userLike: req.body.userId,
-            },
-          ],
-        },
-        $set: {
-          ...update,
-        },
-      },
-      {
-        upsert: true,
-        new: true,
-        useFindAndModify: false,
+      let update;
+      if (req.body.postId) {
+        condition = {
+          postId: {
+            $eq: mongoose.Types.ObjectId(req.body.postId),
+          },
+        };
+        update = {
+          postId: req.body.postId,
+        };
       }
-    )
-      .then((result) => res.json(result))
-      .catch((err) => res.json(err));
-    }
-   Like.findOne({postId : req.body.targetPostId})
-   .then(result => {
-     if(result == null){
-      create()
 
-     }else{
-      Like.findOne({"like.userLike" : req.body.userId})
-      .then(response => {
-        console.log(response)
-        if(response){
-          return res 
-            .status(400)
-              .json("kamu tidak bisa like")
-        }else{
-          create()
+      Like.findOneAndUpdate(
+        condition,
+        {
+          ...update,
+          $push: {
+            like: [
+              {
+                userLike: req.body.userLike,
+              },
+            ],
+          },
+          $set: {
+            ...update,
+          },
+        },
+        {
+          upsert: true,
+          new: true,
+          // useFindAndModify: false,
         }
-      }).catch(err => status(400).json(err))
-     }
-   }).catch(err => status(400).json(err))
+      )
+        .then((result) => res.json(result))
+        .catch((err) => res.json(err));
+    };
+    Like.findOne({ postId: req.body.postId })
+      .then((result) => {
+        if (result == null) {
+          create();
+        } else {
+          Like.findOne({ "like.userLike": req.body.userLike })
+            .then((response) => {
+              console.log(response);
+              if (response) {
+                return res.status(400).json("kamu tidak bisa like");
+              } else {
+                create();
+              }
+            })
+            .catch((err) => status(400).json(err));
+        }
+      })
+      .catch((err) => status(400).json(err));
   },
 
   // createLike: (req, res) => {

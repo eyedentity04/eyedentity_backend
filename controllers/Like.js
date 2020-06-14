@@ -53,7 +53,7 @@ module.exports = {
         if (result == null) {
           create();
         } else {
-          Like.findOne({ "like.userLike": req.body.userLike })
+          Like.findOne({$and :[{postId :{$eq : req.body.postId}},{"like.userLike" :{$eq : req.body.userLike}}]})
             .then((response) => {
               console.log(response);
               if (response) {

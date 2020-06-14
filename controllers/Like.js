@@ -8,9 +8,16 @@ module.exports = {
       let update;
       if (req.body.postId) {
         condition = {
-          postId: {
-            $eq: mongoose.Types.ObjectId(req.body.postId),
-          },
+          $and : [
+            {
+              postId: {
+                $eq: mongoose.Types.ObjectId(req.body.postId),
+              },
+              "like.userLike" : {
+                $ne : mongoose.Types.ObjectId(req.body.userLike)
+              }
+            }
+          ]
         };
         update = {
           postId: req.body.postId,
@@ -61,43 +68,49 @@ module.exports = {
       .catch((err) => status(400).json(err));
   },
 
-  // createLike: (req, res) => {
-  //   let condition;
-  //   let update;
-  //   if (req.body.postId) {
-  //     condition = {
-  //       postId: {
-  //         $eq: mongoose.Types.ObjectId(req.body.postId),
-  //       },
-  //     };
-  //     update = {
-  //       postId: req.body.postId,
-  //     };
-  //   }
-
-  //   Like.findOneAndUpdate(
-  //     condition,
-  //     {
-  //       ...update,
-  //       $push: {
-  //         like: [
+  // createLike : (req, res) => {
+  //   Like.findOne(
+  //     {$and:[{postId : {$eq : req.body.postId}},{"like.userLike" : {$ne : req.body.userLike}}]},
+  //     // {
+  //     //   $push:{
+  //     //     like : [
+  //     //       {
+  //     //         userLike : req.body.userLike
+  //     //       }
+  //     //     ]
+  //     //   },
+  //     //   $set : {
+  //     //     postId : req.body.postId
+  //     //   }
+  //     // },
+  //     // {
+  //     //   upsert : true,
+  //     //   useFindAndModify : true
+  //     // }
+  //     )
+  //     .then((result) =>{
+  //       console.log(result)
+  //       if(result == null){
+  //         Like.findOneAndUpdate(
+  //           {$and:[{postId : {$ne : req.body.postId}},{"like.userLike" : {$ne : req.body.userLike}}]},
+  //           {$push : {like : [{userLike : req.body.userLike}]},$set :{postId : req.body.postId}},
   //           {
-  //             userLike: req.body.userLike,
-  //           },
-  //         ],
-  //       },
-  //       $set: {
-  //         ...update,
-  //       },
-  //     },
-  //     {
-  //       upsert: true,
-  //       new: true,
-  //       useFindAndModify: false,
-  //     }
-  //   )
-  //     .then((result) => res.json(result))
-  //     .catch((err) => res.json(err));
+  //             upsert : true,
+  //             new : true
+  //           }
+  //         ).then(result => res.json(result)).catch(err => status(400).json(err))
+  //       }else{
+  //         Like.findOneAndUpdate(
+  //           {$and:[{postId : {$eq : req.body.postId}},{"like.userLike" : {$eq : req.body.userLike}}]},
+  //           {$push : {like : [{userLike : req.body.userLike}]},$set :{postId : req.body.postId}},
+  //           {
+  //             upsert : true,
+
+  //           }
+  //         ).then(result => res.json(result)).catch(err => status(400).json(err))
+  //       }
+  //     })
+  //   .catch(err => status(400).json(err))
   // },
 
   like: (req, res) => {
